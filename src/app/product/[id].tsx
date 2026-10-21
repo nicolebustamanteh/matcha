@@ -1,3 +1,4 @@
+
 import { router, useLocalSearchParams } from 'expo-router';
 import {
     Pressable,
@@ -6,6 +7,7 @@ import {
     View,
 } from 'react-native';
 import { colors } from '../../constants/colors';
+import { fonts } from '../../constants/fonts';
 import { products } from '../../constants/products';
 
 export default function ProductDetail() {
@@ -22,7 +24,6 @@ export default function ProductDetail() {
 
       <View style={styles.sheet}>
         <Text style={styles.name}>{product.name}</Text>
-
         <Text style={styles.price}>Bs {product.price}</Text>
 
         <Text style={styles.description}>
@@ -68,16 +69,18 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 30,
-    fontWeight: '800',
+    fontFamily: fonts.h1,
+    letterSpacing: -0.5,
     color: colors.text,
   },
   price: {
     fontSize: 34,
-    fontWeight: '800',
+    fontFamily: fonts.h2,
     color: colors.primary,
   },
   description: {
     fontSize: 15,
+    fontFamily: fonts.p,
     lineHeight: 24,
     color: colors.textMuted,
     marginTop: 8,
@@ -92,7 +95,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 17,
-    fontWeight: '700',
+    fontFamily: fonts.h2,
+    letterSpacing: 0.3,
     color: colors.onPrimary,
   },
 });

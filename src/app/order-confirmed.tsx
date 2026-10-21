@@ -1,3 +1,4 @@
+
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from 'expo-router';
 import {
@@ -7,11 +8,13 @@ import {
     View,
 } from 'react-native';
 import { colors } from '../constants/colors';
+import { fonts } from '../constants/fonts';
 
 export default function OrderConfirmed() {
-  const { name, product } = useLocalSearchParams<{
+  const { name, product, note } = useLocalSearchParams<{
     name: string;
     product: string;
+    note?: string;
   }>();
 
   return (
@@ -30,13 +33,15 @@ export default function OrderConfirmed() {
         Tu {product} ya se está preparando.
       </Text>
 
+      {note ? (
+        <Text style={styles.note}>Nota: {note}</Text>
+      ) : null}
+
       <Pressable
         style={styles.button}
         onPress={() => router.dismissAll()}
       >
-        <Text style={styles.buttonText}>
-          Volver al menú
-        </Text>
+        <Text style={styles.buttonText}>Volver al menú</Text>
       </Pressable>
     </View>
   );
@@ -53,14 +58,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontWeight: '800',
+    fontFamily: fonts.h1,
     letterSpacing: -0.5,
     color: colors.text,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
+    fontFamily: fonts.p,
     lineHeight: 24,
+    color: colors.textMuted,
+    textAlign: 'center',
+  },
+  note: {
+    fontSize: 14,
+    fontFamily: fonts.p,
     color: colors.textMuted,
     textAlign: 'center',
   },
@@ -74,7 +86,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 17,
-    fontWeight: '700',
+    fontFamily: fonts.h2,
     letterSpacing: 0.3,
     color: colors.onPrimary,
   },

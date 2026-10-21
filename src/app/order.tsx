@@ -1,14 +1,16 @@
+
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import {
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 import { colors } from '../constants/colors';
+import { fonts } from '../constants/fonts';
 import { products } from '../constants/products';
 
 export default function Order() {
@@ -47,6 +49,7 @@ export default function Order() {
         params: {
           name: name.trim(),
           product: product.name,
+          note: note.trim(),
         },
       });
     }
@@ -112,6 +115,8 @@ const styles = StyleSheet.create({
   content: {
     padding: 24,
     gap: 8,
+    backgroundColor: colors.background,
+    flexGrow: 1,
   },
   summary: {
     flexDirection: 'row',
@@ -135,17 +140,17 @@ const styles = StyleSheet.create({
   },
   summaryName: {
     fontSize: 18,
-    fontWeight: '700',
+    fontFamily: fonts.h2,
     color: colors.text,
   },
   summaryPrice: {
     fontSize: 20,
-    fontWeight: '800',
+    fontFamily: fonts.h2,
     color: colors.primary,
   },
   label: {
     fontSize: 13,
-    fontWeight: '600',
+    fontFamily: fonts.h2,
     color: colors.textMuted,
     marginTop: 12,
     marginLeft: 4,
@@ -154,16 +159,19 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 18,
     fontSize: 16,
+    fontFamily: fonts.p,
     borderWidth: 1.5,
     borderRadius: 18,
     borderColor: colors.border,
     backgroundColor: colors.card,
+    color: colors.text,
   },
   inputError: {
     borderColor: colors.error,
   },
   error: {
     fontSize: 13,
+    fontFamily: fonts.p,
     color: colors.error,
     marginLeft: 4,
   },
@@ -181,7 +189,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 17,
-    fontWeight: '700',
+    fontFamily: fonts.h2,
     color: colors.onPrimary,
   },
 });

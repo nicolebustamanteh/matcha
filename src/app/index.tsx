@@ -1,3 +1,4 @@
+
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link } from 'expo-router';
 import {
@@ -9,6 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../constants/colors';
+import { fonts } from '../constants/fonts';
 import { products } from '../constants/products';
 
 export default function Index() {
@@ -59,11 +61,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 36,
-    fontWeight: '800',
+    fontFamily: fonts.h1,
+    letterSpacing: -1,
     color: colors.text,
   },
   subtitle: {
     fontSize: 15,
+    fontFamily: fonts.p,
     color: colors.textMuted,
     marginBottom: 12,
   },
@@ -92,12 +96,12 @@ const styles = StyleSheet.create({
   },
   cardName: {
     fontSize: 18,
-    fontWeight: '700',
+    fontFamily: fonts.h2,
     color: colors.text,
   },
   cardPrice: {
     fontSize: 20,
-    fontWeight: '800',
+    fontFamily: fonts.h2,
     color: colors.primary,
   },
 });

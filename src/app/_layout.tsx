@@ -1,8 +1,22 @@
-
+import { Inder_400Regular } from '@expo-google-fonts/inder';
+import { Lexend_600SemiBold } from '@expo-google-fonts/lexend';
+import { ZalandoSansSemiExpanded_800ExtraBold } from '@expo-google-fonts/zalando-sans-semiexpanded';
+import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { colors } from '../constants/colors';
+import { fonts } from '../constants/fonts';
 
 export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+    ZalandoSansSemiExpanded_800ExtraBold,
+    Lexend_600SemiBold,
+    Inder_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <Stack
       screenOptions={{
@@ -10,6 +24,7 @@ export default function RootLayout() {
         headerShadowVisible: false,
         headerTintColor: colors.text,
         headerStyle: { backgroundColor: colors.background },
+        headerTitleStyle: { fontFamily: fonts.h2 },
         contentStyle: { backgroundColor: colors.background },
       }}
     >
