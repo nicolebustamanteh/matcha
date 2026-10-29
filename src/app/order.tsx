@@ -12,6 +12,7 @@ import {
 import { colors } from '../constants/colors';
 import { fonts } from '../constants/fonts';
 import { products } from '../constants/products';
+import { loadOrders, saveOrders } from '../storage/orders';
 
 export default function Order() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -22,6 +23,7 @@ export default function Order() {
   const [note, setNote] = useState('');
   const [nameError, setNameError] = useState('');
   const [phoneError, setPhoneError] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   const handlePhoneChange = (text: string) => {
     const numbers = text.replace(/[^0-9]/g, '').slice(0, 8);
@@ -36,14 +38,32 @@ export default function Order() {
 
   const isFormValid = name.trim().length >= 3 && phone.length === 8;
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const validName = name.trim().length >= 3;
     const validPhone = /^\d{8}$/.test(phone);
 
     setNameError(validName ? '' : 'Escribe al menos 3 letras');
     setPhoneError(validPhone ? '' : 'El celular debe tener 8 números');
 
-    if (validName && validPhone && product) {
+    if (!validName || !validPhone || !product || isSaving) {
+      return;
+    }
+
+    setIsSaving(true);
+
+    try {
+      const orders = await loadOrders();
+
+      const newOrder = {
+        id: Date.now().toString(),
+        product: product.name,
+        price: product.price,
+        name: name.trim(),
+        date: new Date().toLocaleDateString('es-BO'),
+      };
+
+      await saveOrders([newOrder, ...orders]);
+
       router.push({
         pathname: '/order-confirmed',
         params: {
@@ -52,6 +72,11 @@ export default function Order() {
           note: note.trim(),
         },
       });
+    } catch (error) {
+      console.error('Error al guardar el pedido:', error);
+      setNameError('No se pudo guardar el pedido. Intenta nuevamente.');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -101,11 +126,13 @@ export default function Order() {
       />
 
       <Pressable
-        style={[styles.button, !isFormValid && styles.buttonDisabled]}
+        style={[styles.button, (!isFormValid || isSaving) && styles.buttonDisabled]}
         onPress={handleSubmit}
-        disabled={!isFormValid}
+        disabled={!isFormValid || isSaving}
       >
-        <Text style={styles.buttonText}>Confirmar pedido</Text>
+        <Text style={styles.buttonText}>
+          {isSaving ? 'Guardando pedido...' : 'Confirmar pedido'}
+        </Text>
       </Pressable>
     </ScrollView>
   );
