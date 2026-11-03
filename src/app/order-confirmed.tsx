@@ -1,12 +1,12 @@
-
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from 'expo-router';
 import {
-    Pressable,
-    StyleSheet,
-    Text,
-    View,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
+import NotifyCard from '../components/NotifyCard';
 import { colors } from '../constants/colors';
 import { fonts } from '../constants/fonts';
 
@@ -36,6 +36,8 @@ export default function OrderConfirmed() {
       {note ? (
         <Text style={styles.note}>Nota: {note}</Text>
       ) : null}
+
+      <NotifyCard />
 
       <Pressable
         style={styles.button}
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    marginTop: 32,
+    marginTop: 20,
     paddingVertical: 18,
     paddingHorizontal: 48,
     borderRadius: 30,

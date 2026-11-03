@@ -1,4 +1,3 @@
-
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import {
@@ -63,6 +62,8 @@ export default function Order() {
       };
 
       await saveOrders([newOrder, ...orders]);
+
+  
 
       router.push({
         pathname: '/order-confirmed',
