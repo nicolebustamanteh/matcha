@@ -1,10 +1,11 @@
 
+import * as Haptics from 'expo-haptics';
 import { router, useLocalSearchParams } from 'expo-router';
 import {
-    Pressable,
-    StyleSheet,
-    Text,
-    View,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
 import { colors } from '../../constants/colors';
 import { fonts } from '../../constants/fonts';
@@ -32,12 +33,16 @@ export default function ProductDetail() {
 
         <Pressable
           style={styles.button}
-          onPress={() =>
+          onPress={() => {
+            Haptics.impactAsync(
+              Haptics.ImpactFeedbackStyle.Light
+            );
+
             router.push({
               pathname: '/order',
               params: { id: product.id },
-            })
-          }
+            });
+          }}
         >
           <Text style={styles.buttonText}>Pedir</Text>
         </Pressable>
