@@ -1,6 +1,6 @@
 
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import {
   Pressable,
   ScrollView,
@@ -8,42 +8,70 @@ import {
   Text,
   View,
 } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../../constants/colors';
 import { fonts } from '../../constants/fonts';
 import { products } from '../../constants/products';
 
 export default function Index() {
+  const router = useRouter();
+
   return (
     <SafeAreaView style={styles.screen}>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>Matcha</Text>
         <Text style={styles.subtitle}>¿Qué vas a tomar hoy?</Text>
 
-        {products.map((product) => (
-          <Link
+        {products.map((product, index) => (
+          <Animated.View
             key={product.id}
-            href={{
-              pathname: '/product/[id]',
-              params: { id: product.id },
-            }}
-            asChild
+            entering={FadeInDown.delay(index * 100)}
           >
-            <Pressable style={styles.card}>
-              <Text style={styles.cardEmoji}>{product.emoji}</Text>
+            <Pressable
+              onPress={() =>
+                router.push({
+                  pathname: '/product/[id]',
+                  params: { id: product.id },
+                })
+              }
+              style={styles.pressable}
+            >
+              {({ pressed }) => (
+                <Animated.View
+                  style={[
+                    styles.card,
+                    {
+                      transform: [
+                        { scale: pressed ? 0.96 : 1 },
+                      ],
+                      transitionProperty: 'transform',
+                      transitionDuration: 150,
+                    },
+                  ]}
+                >
+                  <Text style={styles.cardEmoji}>
+                    {product.emoji}
+                  </Text>
 
-              <View style={styles.cardInfo}>
-                <Text style={styles.cardName}>{product.name}</Text>
-                <Text style={styles.cardPrice}>Bs {product.price}</Text>
-              </View>
+                  <View style={styles.cardInfo}>
+                    <Text style={styles.cardName}>
+                      {product.name}
+                    </Text>
+                    <Text style={styles.cardPrice}>
+                      Bs {product.price}
+                    </Text>
+                  </View>
 
-              <Ionicons
-                name="chevron-forward"
-                size={20}
-                color={colors.textMuted}
-              />
+                  <Ionicons
+                    name="chevron-forward"
+                    size={20}
+                    color={colors.textMuted}
+                  />
+                </Animated.View>
+              )}
             </Pressable>
-          </Link>
+          </Animated.View>
         ))}
       </ScrollView>
     </SafeAreaView>
@@ -70,6 +98,9 @@ const styles = StyleSheet.create({
     fontFamily: fonts.p,
     color: colors.textMuted,
     marginBottom: 12,
+  },
+  pressable: {
+    borderRadius: 28,
   },
   card: {
     flexDirection: 'row',
